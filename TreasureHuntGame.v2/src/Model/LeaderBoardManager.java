@@ -1,0 +1,35 @@
+package Model;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
+public class LeaderBoardManager {
+
+        private List<Player> players = new ArrayList<>();
+
+        //This metod att player score to the arrayList
+        public void addPlayerToScoreBoard(String name, int score) {
+            if (!name.equals("")) {
+                players.add(new Player(name,score));
+                sortLeaderBoard();
+            }
+
+        }
+
+        //This metod sorts the leaderboard and shows the higest score on top
+        private void sortLeaderBoard() {
+            players.sort(Comparator.comparingInt(Player::getScore).reversed());
+        }
+
+
+
+        // This method returns the leaderboard list
+        //This metod returns the leaderboard list
+        public String[] getLeaderBoard() {
+            Player[] playerList = players.toArray(Player[]::new);
+            String[] leaderBoard = new String[playerList.length];
+            for (int i=0; i<playerList.length; i++) leaderBoard[i] = playerList[i].toString();
+            return leaderBoard;
+        }
+}
