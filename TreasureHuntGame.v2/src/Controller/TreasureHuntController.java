@@ -80,7 +80,7 @@ public class TreasureHuntController {
         // Update the view based on the initial game state, including the buttons
         updateView(player1.getName(), player2.getName());
 
-        String [] leaderboard = loadLeaderBoardFromFile("PlayersLeaderBoardList.txt");
+        String [] leaderboard = loadLeaderBoardFromFile("C:\\Users\\obed2\\IdeaProjects\\TreasureHuntGame_U4\\TreasureHuntGame.v2\\PlayersLeaderBoardList.txt");
         view.updateLeaderboard(leaderboard);
     }
 
