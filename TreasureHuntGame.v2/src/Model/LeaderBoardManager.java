@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * This class is a manager for the leaderboard and handles how to add player to the list of leaderboard
+ *
+ */
 public class LeaderBoardManager {
 
         private List<Player> players = new ArrayList<>();

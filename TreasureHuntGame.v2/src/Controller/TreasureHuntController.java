@@ -10,6 +10,10 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class handles all the logic of the game, everything from placing ships, deciding turns handling hit or miss,
+ * and so much more.
+ */
 public class TreasureHuntController {
     private Player player1;
     private Player player2;
@@ -30,21 +34,59 @@ public class TreasureHuntController {
     private TreasureChest treasureChest;
 
 
-
+    /**
+     * This is the constructor.
+     * In here instance of player 1 and 2 is created,
+     * the choiceOfBoard metod is started when the controller is called,
+     * new instance of view is created,
+     * leaderboard instance is created,
+     * and startgame metod, placeTreasuresAndTraps and switchPlayerTurn
+     * is activated when the controller is called
+     */
     public TreasureHuntController() {
         // Initialize player1 and player2 first
         player1 = new Player("DefaultPlayer1", 0);
         player2 = new Player("DefaultPlayer2", 0);
 
-        gameGrid = new GameGrid(16);
+        //gameGrid = new GameGrid(16);
+        choiceOfBoard();
         view = new TreasureHuntGUI(this);
-        currentPlayer = player1;  // Now currentPlayer is correctly initialized
+        currentPlayer = player1;
         leaderBoardManager = new LeaderBoardManager();
 
         startGame();  // Move this line here to ensure player1 and player2 are initialized
         placeTreasuresAndTraps();
         switchPlayerTurn();
     }
+
+    /**
+     * This metod ask the player for boardsize with the help of JOptionpane dialog and creates new gamegrid with the choosen boardsize
+     * @author Obed Owusu
+     */
+    public void choiceOfBoard() {
+        Object[] options = {"16 x 16", "18 x 18"};
+
+        int choice = JOptionPane.showOptionDialog(
+                null,
+                "Choose the size of the board:",
+                "Board Size",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]
+        );
+
+        // Check user choice
+        if (choice == 0) {
+            // User chose 16 x 16
+            gameGrid = new GameGrid(16);
+        } else if (choice == 1) {
+            // User chose 18 x 18
+            gameGrid = new GameGrid(18);
+        }
+    }
+
 
     /**
      * This metod starts the game by asking the user for the player names and then starting the other startGame method
@@ -68,6 +110,7 @@ public class TreasureHuntController {
      * @author Obed Owusu
      * @param player1Name Player 1 name from Joption Dialog from startGame method
      * @param player2Name Player 2 name from Joption Dialog from startGame method
+     * @author Obed Owusu
      */
     public void startGame(String player1Name, String player2Name) {
 
@@ -91,6 +134,7 @@ public class TreasureHuntController {
      * @author Obed Owusu
      * @param player1Name Player 1 name from Joption Dialog from startGame method
      * @param player2Name Player 2 name from Joption Dialog from startGame method
+     * @author Obed Owusu
      */
     public void updateView(String player1Name, String player2Name) {
         // Update the player names in the GUI using the provided method
@@ -190,7 +234,7 @@ public class TreasureHuntController {
         Player winner = (player1.getScore() > player2.getScore()) ? player1 : player2;
         String message = "Game Over! " + winner.getName() + " wins with a score of " + winner.getScore() + ".";
         leaderBoardManager.addPlayerToScoreBoard(winner.getName(), winner.getScore());
-        saveLeaderBoardToFile("PlayersLeaderBoardList.txt", leaderBoardManager.getLeaderBoard());
+        saveLeaderBoardToFile("C:\\Users\\obed2\\IdeaProjects\\TreasureHuntGame_U4\\TreasureHuntGame.v2\\PlayersLeaderBoardList.txt", leaderBoardManager.getLeaderBoard());
         // Define buttons for the JOptionPane
         Object[] options = {"Play Again", "Exit"};
 
@@ -231,7 +275,7 @@ public class TreasureHuntController {
         // Save winner's info before resetting the game
         Player winner = (player1.getScore() > player2.getScore()) ? player1 : player2;
         leaderBoardManager.addPlayerToScoreBoard(winner.getName(), winner.getScore());
-        saveLeaderBoardToFile("PlayersLeaderBoardList.txt", leaderBoardManager.getLeaderBoard());
+        saveLeaderBoardToFile("C:\\Users\\obed2\\IdeaProjects\\TreasureHuntGame_U4\\TreasureHuntGame.v2\\PlayersLeaderBoardList.txt", leaderBoardManager.getLeaderBoard());
 
         // Display a message with the winner's info
         JOptionPane.showMessageDialog(null, "Game Over! " + winner.getName() +
@@ -267,7 +311,7 @@ public class TreasureHuntController {
         view.displayTurnIndicator(currentPlayer.getName());
 
 
-        String[] leaderboard = loadLeaderBoardFromFile("PlayersLeaderBoardList.txt");
+        String[] leaderboard = loadLeaderBoardFromFile("C:\\Users\\obed2\\IdeaProjects\\TreasureHuntGame_U4\\TreasureHuntGame.v2\\PlayersLeaderBoardList.txt");
         view.updateLeaderboard(leaderboard);
 
 
@@ -281,9 +325,14 @@ public class TreasureHuntController {
     }
 
 
-
-
-
+    /**
+     * This is an important metod that insepect the board for hit or miss,
+     * if player hit or miss the handlhit metod is used, if miss handlemiss metod is used.
+     * After every hit or miss the playturn is used
+     * @param x this is the value of column
+     * @param y this is the value of row
+     * @author Obed Owusu
+     */
     public void inspectBoard(int x, int y) {
         BoardItem boardItem = gameGrid.getGrid()[x][y];
 
@@ -296,7 +345,18 @@ public class TreasureHuntController {
         }
     }
 
-    //This metod handels shots that are hit
+    /**
+     * If the player hits something, this metod is activated.
+     * If an instance of trap is hit and the players score is more than zero, then they are deducted one point
+     * and this is displayed aswell. Else statement is for if player hits trap and already has zero points, then
+     * their turn is switched to the other player.
+     * The other else statement is for if instance of treasure, or other objects except for trap is hit, then they currentplayer with the turn,
+     * gets point. The
+     * @param boardItem
+     * @param x gives number for colum
+     * @param y gives number for row
+     * @author Obed Owusu
+     */
     private void handleHit(BoardItem boardItem, int x, int y) {
         view.shotHit(x, y);
 
@@ -321,8 +381,7 @@ public class TreasureHuntController {
                     switchPlayerTurn();
                 }
             } else {
-                // It's a treasure
-                //  currentPlayer.addFoundObject(boardItem);
+                // This part is for if treasure is found
                 currentPlayer.increaseScore(boardItem.getPoints());
                 view.updateFoundObjects(currentPlayer.getName(), boardItem);
                 view.updatePlayerScores(player1.getScore(), player2.getScore());
@@ -334,35 +393,54 @@ public class TreasureHuntController {
     }
 
 
-
-
-
+    /**
+     * This metod handels miss. When the player does not find any objects, then this metod is triggerd.
+     * This metod calls shotmissed in view and that metod disable the button that was missed. In my case,
+     * this shotmissed metod uses gamecell buttons, so that button is set to black
+     * @param x gives number for colum
+     * @param y gives number for row
+     * @author Obed Owusu
+     */
     private void handleMiss(int x, int y) {
         view.shotMissed(x, y);
     }
 
-
-
-    public Object[][] getGrid() {
-        return gameGrid.getGrid();
-
-    }
-
+    /**
+     * This metod returns the size of the board, from gamegrid class
+     * @return size of bord
+     * @author Obed Owusu
+     */
     public int getBoardSize() {
         return gameGrid.getSizeOfBoard();
     }
 
-
+    /**
+     * This metod saves leaderboard to textfile.
+     * New printwriter is created, inside the parameter of the printwriter, filewriter is created,
+     * this is where the leaderboard will go.
+     * We loop leaderboard and save it into score. Writer then prints the score to textfile
+     * @param fileName The textfile you want to save the score into
+     * @param leaderBoard The leaderboard you want to use or loop
+     * @author Obed Owusu
+     */
     public void saveLeaderBoardToFile(String fileName, String[] leaderBoard) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(fileName, true))) {
-            for (String entry : leaderBoard) {
-                writer.println(entry);
+            for (String score : leaderBoard) {
+                writer.println(score);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * This metod load the save data from textfile
+     * New arraylist for loeaderboard is created
+     * BufferedReader then reads the data from textfile and it to leaderboard
+     * @param fileName The file that you want to load data from
+     * @return leaderboard array of type string
+     * @author Obed Owusu
+     */
     public String[] loadLeaderBoardFromFile(String fileName) {
         List<String> leaderBoard = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
@@ -377,8 +455,11 @@ public class TreasureHuntController {
     }
 
 
-
-
+    /**
+     * This metod is used to return current player
+     * @return currentplayer/instanced of player
+     * @author Obed Owusu
+     */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
