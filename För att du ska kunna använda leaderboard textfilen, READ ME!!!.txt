@@ -1,0 +1,3 @@
+För att du ska kunna använda leaderboard textfilen, så måste du sätta absolute patch från textfilen,
+på metoder som använder saveLeaderBoardToFile och loadLeaderBoardFromFile!!
+Detta är viktigt annars kommer inte textfilen visas på GUI.
