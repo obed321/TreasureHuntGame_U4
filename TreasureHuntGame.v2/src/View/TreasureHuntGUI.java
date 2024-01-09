@@ -170,8 +170,8 @@ public class TreasureHuntGUI extends JFrame {
 
 
             // Get the row and column of the clicked button
-            int gridSize = buttons.length;
-            int row = -1, col = -1;
+           // int gridSize = buttons.length;
+           // int row = -1, col = -1;
             for (int i = 0; i < buttons.length; i++) {
                 for (int j = 0; j < buttons[0].length; j++) {
                     if (e.getSource() == buttons[i][j]) {

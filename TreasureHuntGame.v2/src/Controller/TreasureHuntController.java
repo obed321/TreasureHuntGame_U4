@@ -231,11 +231,16 @@ public class TreasureHuntController {
      * @author Obed Owusu
      */
     public void handleGameOver() {
-        Player winner = (player1.getScore() > player2.getScore()) ? player1 : player2;
+        Player winner;
+        if (player1.getScore() > player2.getScore()) {
+            winner = player1;
+        } else {
+            winner = player2;
+        }
         String message = "Game Over! " + winner.getName() + " wins with a score of " + winner.getScore() + ".";
         leaderBoardManager.addPlayerToScoreBoard(winner.getName(), winner.getScore());
         saveLeaderBoardToFile("C:\\Users\\obed2\\IdeaProjects\\TreasureHuntGame_U4\\TreasureHuntGame.v2\\PlayersLeaderBoardList.txt", leaderBoardManager.getLeaderBoard());
-        // Define buttons for the JOptionPane
+
         Object[] options = {"Play Again", "Exit"};
 
         int choice = JOptionPane.showOptionDialog(
@@ -272,7 +277,9 @@ public class TreasureHuntController {
      * @author Obed Owusu
      */
     public void newGame() {
+       /*
         // Save winner's info before resetting the game
+
         Player winner = (player1.getScore() > player2.getScore()) ? player1 : player2;
         leaderBoardManager.addPlayerToScoreBoard(winner.getName(), winner.getScore());
         saveLeaderBoardToFile("C:\\Users\\obed2\\IdeaProjects\\TreasureHuntGame_U4\\TreasureHuntGame.v2\\PlayersLeaderBoardList.txt", leaderBoardManager.getLeaderBoard());
@@ -280,7 +287,7 @@ public class TreasureHuntController {
         // Display a message with the winner's info
         JOptionPane.showMessageDialog(null, "Game Over! " + winner.getName() +
                 " wins with a score of " + winner.getScore() + ".");
-
+*/
 
         player1.setScore(0);
         player2.setScore(0);

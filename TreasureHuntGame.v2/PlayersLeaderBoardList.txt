@@ -6,3 +6,10 @@ obed 4
 obed 4
 obed 4
 hej 1
+obed 5
+obed 5
+obed 5
+king 3
+king 3
+lh 3
+vd 5

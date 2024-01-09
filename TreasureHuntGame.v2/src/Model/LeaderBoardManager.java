@@ -31,9 +31,15 @@ public class LeaderBoardManager {
         // This method returns the leaderboard list
         //This metod returns the leaderboard list
         public String[] getLeaderBoard() {
-            Player[] playerList = players.toArray(Player[]::new);
-            String[] leaderBoard = new String[playerList.length];
-            for (int i=0; i<playerList.length; i++) leaderBoard[i] = playerList[i].toString();
+            List<Player> playerList = new ArrayList<>(players);
+            String[] leaderBoard = new String[playerList.size()];
+
+            int index = 0;
+            for (Player player : playerList) {
+                leaderBoard[index++] = player.toString();
+            }
+
             return leaderBoard;
         }
+
 }
