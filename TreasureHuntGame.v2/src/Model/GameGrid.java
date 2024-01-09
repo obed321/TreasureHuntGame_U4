@@ -4,11 +4,11 @@ import java.util.*;
 
 /**
  * This class acts as the gamegrid manager, and has the necessary metod, for placing boarditem on grid,
- * checking for valid and invalid postion
+ * checking for valid and invalid postion and returning size and array of the grid.
  * @author Obed Owusu
  */
 public class GameGrid {
-    private static final int maxAttempt = 5000; // You can adjust this number based on your needs
+    private static final int maxAttempt = 5000;
     private int sizeOfBoard;
     private BoardItem[][] boardItems;
     private List<String> occupiedPositions;
@@ -51,11 +51,12 @@ public class GameGrid {
     }
 
     /**
-     * This metod checks so that the postition the boarditem is being placed is valid
+     * This metod checks so that the position the boarditem is being placed is valid
      * and returns if it's true or not
      * @param row position of row
      * @param col position of column
      * @return true if boardposition is valid
+     * @author Obed Owusu
      */
     private boolean isValidPosition(int row, int col) {
         return row >= 0 && row < sizeOfBoard && col >= 0 && col < sizeOfBoard;
@@ -64,8 +65,8 @@ public class GameGrid {
     /**
      * This metod checks so that boarditems can be placed on the grid.
      * The metod take in the size of the board and item
-     * Then uses it to measure wether the objects can be place on the board or not.
-     * This metod also check so that objects dont overlap on existing objects
+     * Then uses it to measure whether the objects can be place on the board or not.
+     * This metod also check so that objects don't overlap on existing objects
      * @param boardItem The item that is to be placed
      * @param row position of row
      * @param col position of column
@@ -110,7 +111,12 @@ public class GameGrid {
     }
 
 
-
+    /**
+     * This metod is the one that is used to place the boarditems.
+     * It uses canPlaceBoardItem and placeBoardItemWithShape to place the item on the grid
+     * @param boardItem
+     * @author Obed Owusu
+     */
     public void placeBoardItem(BoardItem boardItem) {
         Random rand = new Random();
 
@@ -126,6 +132,14 @@ public class GameGrid {
         }
     }
 
+    /**
+     * This metod places the boarditem in a shape, by taking the shape from the item class
+     * Then this shape is placed on the grid with the help of addBoardItemToGrid and placeBoardItem metod
+     * @param boardItem
+     * @param row
+     * @param col
+     * @author Obed Owusu
+     */
     private void placeBoardItemWithShape(BoardItem boardItem, int row, int col) {
         int[][] shape = boardItem.getShape();
 
@@ -139,9 +153,11 @@ public class GameGrid {
     }
 
 
-
-
-
+    /**
+     * This metod clear any boarditem that is on the grid.
+     * The clearPosition is then called so that the boarditem position can be removed from occupiedPositions list
+     * @author Obed Owusu
+     */
     public void clearBoardObject() {
         for (int row = 0; row < sizeOfBoard; row++) {
             for (int col = 0; col < sizeOfBoard; col++) {
@@ -153,22 +169,44 @@ public class GameGrid {
         }
     }
 
+    /**
+     * This metod just mark positions on the grid as not occupied,
+     * by taking in the position on the grid and marking it as not occupied in the occupiedPositions list
+     * @param row position number on row
+     * @param col position number on column
+     * @author Obed Owusu
+     */
     private void clearPosition(int row, int col) {
         occupiedPositions.remove(row + "," + col);
     }
 
 
-
+    /**
+     * This metod marks position as occupide by taking in the position and adding it to occupiedPositions list,
+     * to keep track that this position is occupide
+     * @param row position number on row
+     * @param col position number on column
+     * @author Obed Owusu
+     */
     private void markPositionAsOccupied(int row, int col) {
         occupiedPositions.add(row + "," + col);
     }
 
 
-
+    /**
+     * This metod returns the size of the game board
+     * @return size in number
+     * @author Obed Owusu
+     */
     public int getSizeOfBoard() {
         return sizeOfBoard;
     }
 
+    /**
+     * This metod returns the whole gamegrid array
+     * @return 2d array of the grid
+     * @author Obed Owusu
+     */
     public BoardItem[][] getGrid() {
         return boardItems;
     }
