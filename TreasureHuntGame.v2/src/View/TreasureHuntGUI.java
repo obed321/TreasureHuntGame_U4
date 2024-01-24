@@ -166,9 +166,6 @@ public class TreasureHuntGUI extends JFrame {
             if(clickedButton == newGameBtn) {
                 controller.newGame();
             }
-
-
-
             // Get the row and column of the clicked button
            // int gridSize = buttons.length;
            // int row = -1, col = -1;
